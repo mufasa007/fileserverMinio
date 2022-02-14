@@ -15,6 +15,8 @@
     <description>a fileserver replaced of aliyun's oss for free ! </description>
     <properties>
         <java.version>8</java.version>
+
+        <!-- fixme 后续排查为什么，使用3.0.0版本没有swagger页面显示 -->
         <swagger.version>2.9.2</swagger.version>
     </properties>
 
@@ -30,17 +32,17 @@
             <scope>test</scope>
         </dependency>
 
-<!--        &lt;!&ndash; swagger-UI &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger2</artifactId>-->
-<!--            <version>${swagger.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger-ui</artifactId>-->
-<!--            <version>${swagger.version}</version>-->
-<!--        </dependency>-->
+        <!-- swagger-UI -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>io.swagger</groupId>-->
 <!--            <artifactId>swagger-annotations</artifactId>-->
