@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Api(tags = "健康检查")
-@RequestMapping(value = "/web/hello")
-public class HelloController {
+@Api(tags = "文件下载")
+@RequestMapping(value = "/web/download")
+public class DownloadController {
 
     // http://127.0.0.1:40000/acfileserver/web/hello/sayHello
-    @GetMapping("/sayHello")
+    @GetMapping("/")
     @ResponseBody
     public String hello() {
-        return "helloWorld";
+        return "hello world! ";
     }
 
 }
