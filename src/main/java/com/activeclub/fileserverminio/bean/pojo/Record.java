@@ -7,8 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-@ApiModel("操作记录实体类")
+
 @Data
+@ApiModel("操作记录实体类")
 public class Record implements Serializable {
 
     @ApiModelProperty("自增id")

@@ -54,3 +54,12 @@ springBoot、minio、postgres、redis、caffeine、swagger
 
 
 
+
+
+## 5，细节
+
+
+
+### 5.1，flyway
+
+​	base是数据库表修改目录、patch是数据修改目录
