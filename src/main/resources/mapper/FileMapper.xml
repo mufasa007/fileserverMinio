@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.activeclub.fileserverminio.web.dao.FileDao">
+
+    <resultMap id="BaseResultMap" type="com.activeclub.fileserverminio.bean.pojo.File">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="flag" jdbcType="BIGINT" property="flag"/>
+        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="preview_url" jdbcType="VARCHAR" property="previewUrl"/>
+
+        <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+
+        <result column="md5_code" jdbcType="VARCHAR" property="md5Code"/>
+        <result column="size" jdbcType="INTEGER" property="size"/>
+        <result column="view_frequency" jdbcType="INTEGER" property="viewFrequency"/>
+        <result column="creator_account_name" jdbcType="INTEGER" property="creatorAccountName"/>
+        <result column="update_account_name" jdbcType="INTEGER" property="updateAccountName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="overdue_time" jdbcType="TIMESTAMP" property="overdueTime"/>
+    </resultMap>
+
+    <sql id="all_file">
+        d.id,d.flag,d.file_code,d.file_name,d.preview_url,
+        d.bucket_name,d.path,
+        d.md5_code,d.size,d.view_frequency,
+        d.creator_account_name,d.update_account_name,d.create_time,d.update_time,d.overdue_time
+    </sql>
+
+    <insert id="upsert" parameterType="com.activeclub.fileserverminio.bean.pojo.File">
+        insert into "file"(file_code, file_name, preview_url, bucket_name, "path", md5_code, "size",
+                           view_frequency, creator_account_name, overdue_time)
+        values (#{file_code}, #{file_name}, #{preview_url, #{bucket_name},
+                #{"path"}, {md5_code}, #{"size"}, #{view_frequency}, #{creator_account_name},
+                #{overdue_time}) ON CONFLICT (file_code,flag)
+        DO
+        UPDATE SET file_name = #{fileName},
+            preview_url = #{previewUrl},
+            bucket_name = #{bucketName},
+            "path" = #{path},
+            md5_code = #{md5Code},
+            "size" = #{size},
+            view_frequency = #{md5Code},
+            update_account_name = #{creatorAccountName},
+            overdue_time = #{overdueTime},
+            update_time = now()
+        where file_code = #{fileCode};
+    </insert>
+
+    <select id="getMinioCoreVoByFileCode" resultType="com.activeclub.fileserverminio.bean.vo.MinioCoreVo">
+        select file_code, file_name,bucket_name, "path"
+        from "file"
+        where flag = 0
+          and file_code = #{file_code};
+    </select>
+
+
+</mapper>

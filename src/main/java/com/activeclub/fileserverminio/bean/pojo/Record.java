@@ -7,7 +7,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-
+/**
+ * 文件的整个生命周期记录
+ */
 @Data
 @ApiModel("操作记录实体类")
 public class Record implements Serializable {
@@ -15,7 +17,7 @@ public class Record implements Serializable {
     @ApiModelProperty("自增id")
     private Long id;
 
-    @ApiModelProperty("文件code")
+    @ApiModelProperty("文件code:唯一码")
     private Long fileCode;
 
     @ApiModelProperty("操作人ip")
@@ -23,6 +25,12 @@ public class Record implements Serializable {
 
     @ApiModelProperty("操作类型")
     private Short type;
+
+    @ApiModelProperty("请求链接")
+    private String requestUrl;
+
+    @ApiModelProperty("请求参数")
+    private String paramJson;
 
     @ApiModelProperty("操作时间点")
     private Date momentTime;

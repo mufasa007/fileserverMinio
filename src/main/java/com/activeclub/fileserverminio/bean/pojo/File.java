@@ -12,32 +12,42 @@ import java.util.Date;
 @ApiModel("文件实体类")
 public class File implements Serializable {
 
+    /* 数据库核心数据 */
     @ApiModelProperty("自增id")
     private Long id;
 
     @ApiModelProperty("状态码：0正常存在、-id已删除、1有过期时间")
     private Long flag;
 
-    @ApiModelProperty("md5码:唯一编码,32位")
-    private String code;
+    @ApiModelProperty("唯一编码,32位")
+    private String fileCode;
 
     @ApiModelProperty("文件名称")
     private String fileName;
 
+    @ApiModelProperty("下载链接")
+    private String previewUrl;
 
+
+
+    /* minio核心数据 */
     @ApiModelProperty("minio中的仓库名称")
     private String bucketName;
 
     @ApiModelProperty("minio中的仓库路径")
     private String path;
 
+
+
+    /* 辅助数据 */
+    @ApiModelProperty("md5码")
+    private String md5Code;
+
     @ApiModelProperty("文件大小")
     private Long size;
 
     @ApiModelProperty("被阅览的次数")
     private Long viewFrequency;
-
-
 
     @ApiModelProperty("创建人名称")
     private String creatorAccountName;
