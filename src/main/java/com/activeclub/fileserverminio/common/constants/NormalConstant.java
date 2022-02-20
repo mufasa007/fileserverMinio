@@ -1,5 +1,8 @@
 package com.activeclub.fileserverminio.common.constants;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public interface NormalConstant {
 
     // 操作类型
@@ -13,5 +16,7 @@ public interface NormalConstant {
 
     // 反参处理
     String preview_url_prefix = "/api/v1/file/preview?fileCode=";
+
+
 
 }

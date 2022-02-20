@@ -5,12 +5,14 @@ import com.activeclub.fileserverminio.core.bean.pojo.BaseException;
 import io.minio.GetObjectArgs;
 import io.minio.StatObjectArgs;
 import lombok.extern.log4j.Log4j2;
+import org.bouncycastle.util.encoders.UTF8;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -18,6 +20,8 @@ import java.security.MessageDigest;
 import java.util.Objects;
 
 import static com.activeclub.fileserverminio.common.constants.OptionCode.*;
+import static com.activeclub.fileserverminio.common.constants.PreviewConstant.PICTURE_SET;
+import static com.activeclub.fileserverminio.common.constants.PreviewConstant.contextType;
 import static com.activeclub.fileserverminio.web.service.impl.FileServiceImpl.minioClient;
 
 @Log4j2
@@ -66,34 +70,25 @@ public class FileUtil {
      * @param response    返回体
      */
     public void onlinePreview(MinioCoreVo minioCoreVo, InputStream inputStream, HttpServletResponse response) {
-
         try {
-            //获取文件类型
+            //获取文件类型 todo 后续处理特殊文件类型预览情况
             String suffix = minioCoreVo.getFormat();
-            if (!suffix.equals("txt")
-                    && !suffix.equals("doc") &&
-                    !suffix.equals("docx") &&
-                    !suffix.equals("xls") &&
-                    !suffix.equals("xlsx") &&
-                    !suffix.equals("ppt") &&
-                    !suffix.equals("jpg") &&
-                    !suffix.equals("pptx")) {
-                throw new Exception("文件格式不支持预览");
+            if (StringUtils.hasLength(suffix)) {
+                response.setContentType(contextType.get(suffix));
             }
+            response.setCharacterEncoding("utf-8");
             OutputStream outputStream = response.getOutputStream();
-            response.setContentType("image/jpeg");
             //创建存放文件内容的数组
-            byte[] buff =new byte[1024];
+            byte[] buff = new byte[1024];
             //所读取的内容使用n来接收
             int n;
             //当没有读取完时,继续读取,循环
-            while((n=inputStream.read(buff))!=-1){
+            while ((n = inputStream.read(buff)) != -1) {
                 //将字节数组的数据全部写入到输出流中
-                outputStream.write(buff,0,n);
+                outputStream.write(buff, 0, n);
             }
             //强制将缓存区的数据进行输出
             outputStream.flush();
-            //关流
             outputStream.close();
             inputStream.close();
         } catch (Exception e) {

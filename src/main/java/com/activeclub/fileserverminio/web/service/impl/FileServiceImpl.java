@@ -13,33 +13,21 @@ import com.activeclub.fileserverminio.core.bean.pojo.BaseException;
 import com.activeclub.fileserverminio.core.utils.SessionService;
 import com.activeclub.fileserverminio.web.service.DbService;
 import com.activeclub.fileserverminio.web.service.FileService;
-import io.minio.*;
-import io.minio.errors.*;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.activeclub.fileserverminio.common.constants.OptionCode.GET_FILE_DATA_FAIL;
 import static com.activeclub.fileserverminio.common.constants.OptionCode.PARAM_IS_NULL;
 
 
@@ -186,7 +174,7 @@ public class FileServiceImpl implements InitializingBean, FileService {
         InputStream inputStream = fileUtil.getObject(minioCoreVo.getMinioBucket(), minioCoreVo.getMinioPath());
 
         // 预览操作
-        fileUtil.onlinePreview(minioCoreVo,inputStream,res);
+        fileUtil.onlinePreview(minioCoreVo, inputStream, res);
     }
 
 }
