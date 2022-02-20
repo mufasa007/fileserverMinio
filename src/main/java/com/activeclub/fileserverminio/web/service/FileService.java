@@ -45,4 +45,5 @@ public interface FileService {
      */
     void preview(String fileCode, HttpServletResponse res);
 
+    void delete(String fileCode);
 }

@@ -5,14 +5,11 @@ import com.activeclub.fileserverminio.core.bean.pojo.BaseException;
 import io.minio.GetObjectArgs;
 import io.minio.StatObjectArgs;
 import lombok.extern.log4j.Log4j2;
-import org.bouncycastle.util.encoders.UTF8;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -20,7 +17,6 @@ import java.security.MessageDigest;
 import java.util.Objects;
 
 import static com.activeclub.fileserverminio.common.constants.OptionCode.*;
-import static com.activeclub.fileserverminio.common.constants.PreviewConstant.PICTURE_SET;
 import static com.activeclub.fileserverminio.common.constants.PreviewConstant.contextType;
 import static com.activeclub.fileserverminio.web.service.impl.FileServiceImpl.minioClient;
 

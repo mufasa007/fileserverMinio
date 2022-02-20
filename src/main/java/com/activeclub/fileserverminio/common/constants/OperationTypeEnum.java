@@ -8,7 +8,7 @@ import static com.activeclub.fileserverminio.common.constants.NormalConstant.*;
  */
 public enum OperationTypeEnum {
     UPLOAD(UPLOAD_TYPE, "upload", "上传"),
-    UPDATE(UPDATE_TYPE, "Update", "更新"),
+    UPDATE(UPDATE_TYPE, "update", "更新"),
     DOWNLOAD(DOWNLOAD_TYPE, "download", "下载"),
     PREVIEW(PREVIEW_TYPE, "preview", "预览"),
     DELETE(DELETE_TYPE, "delete", "删除"),
@@ -34,9 +34,9 @@ public enum OperationTypeEnum {
         }
     }
 
-    private Short type;
-    private String operationName;
-    private String operationChnName;
+    public Short type;
+    public String operationName;
+    public String operationChnName;
 
     OperationTypeEnum(Short type, String operationName, String operationChnName) {
         this.type = type;

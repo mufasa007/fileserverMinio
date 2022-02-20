@@ -177,4 +177,9 @@ public class FileServiceImpl implements InitializingBean, FileService {
         fileUtil.onlinePreview(minioCoreVo, inputStream, res);
     }
 
+    @Override
+    public void delete(String fileCode) {
+
+    }
+
 }

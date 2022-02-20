@@ -63,3 +63,109 @@ springBoot、minio、postgres、redis、caffeine、swagger
 ### 5.1，flyway
 
 ​	base是数据库表修改目录、patch是数据修改目录
+
+
+
+## 6，遇到问题解决
+
+### 6.1，minio启动报错
+
+```json
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+An attempt was made to call a method that does not exist. The attempt was made from the following location:
+
+    io.minio.S3Base.<clinit>(S3Base.java:105)
+
+The following method did not exist:
+
+    okhttp3.RequestBody.create([BLokhttp3/MediaType;)Lokhttp3/RequestBody;
+
+The method's class, okhttp3.RequestBody, is available from the following locations:
+
+    jar:file:/D:/apache-maven-3.6.3/repo/com/squareup/okhttp3/okhttp/3.14.9/okhttp-3.14.9.jar!/okhttp3/RequestBody.class
+
+It was loaded from the following location:
+
+    file:/D:/apache-maven-3.6.3/repo/com/squareup/okhttp3/okhttp/3.14.9/okhttp-3.14.9.jar
+```
+
+minio使用的最新版，但是其依赖的okhttp版本不是最新的，重新引用依赖即可解决
+
+```xml
+        <!-- minio文件 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.3.6</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.3</version>
+        </dependency>
+```
+
+
+
+### 6.2，mybatis 转义符
+
+mapper文件格式为 xml
+
+<、>符号是特殊的保留符号，必须通过转译才能使用
+
+```json
+<![CDATA[符号未知]]>
+样例：
+<![CDATA[<]]>   <![CDATA[>]]>
+```
+
+
+
+### 6.3，获取请求者的真实ip
+
+
+
+### 6.4，jmeter聚合报告导出时乱码的解决
+
+先使用记事本打开后，选择编码格式后，得新保存既可
+
+![img](D:\3_project\github\fileserverMinio\README.assets\835259-20160315094330490-893529549.png)
+
+使用编码器打开后选择另存为，将编码从原来的UTF-8改变成ANSI格式。
+
+再次使用excel打开就可以正常显示中文了
+
+
+
+## 7，性能调优
+
+### 7.1，2022.02.20 V1.0.0版本
+
+输入文件code——查询PG数据库——调用minio——返回
+
+| Label    | # 样本 | 平均值 | 最小值 | 最大值 | 标准偏差 | 异常 % | 吞吐量   | 接收 KB/sec | 发送 KB/sec | 平均字节数 |
+| -------- | ------ | ------ | ------ | ------ | -------- | ------ | -------- | ----------- | ----------- | ---------- |
+| HTTP请求 | 10200  | 23341  | 13     | 42882  | 12293.32 | 6.28%  | 104.7798 | 32415.18    | 18.61       | 316789.5   |
+| 总体     | 10200  | 23341  | 13     | 42882  | 12293.32 | 6.28%  | 104.7798 | 32415.18    | 18.61       | 316789.5   |
+
+可以优化的点：
+
+- 查询code的逻辑：使用热点数据缓存redis+caffeine
+- 异步操作：除核心操作以外，其他操作异步执行
+
+
+
+### 7.2，2022.02.20 V1.0.0 CU1版本
+
+
+
+## 8，参考链接
+
+
+
+1，[jmeter聚合报告导出时乱码的解决](https://blog.csdn.net/weixin_33816300/article/details/93395751)

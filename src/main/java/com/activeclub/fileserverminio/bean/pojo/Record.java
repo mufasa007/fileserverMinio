@@ -18,19 +18,13 @@ public class Record implements Serializable {
     private Long id;
 
     @ApiModelProperty("文件code:唯一码")
-    private Long fileCode;
+    private String fileCode;
 
     @ApiModelProperty("操作人ip")
     private String ip;
 
     @ApiModelProperty("操作类型")
     private Short type;
-
-    @ApiModelProperty("请求链接")
-    private String requestUrl;
-
-    @ApiModelProperty("请求参数")
-    private String paramJson;
 
     @ApiModelProperty("操作时间点")
     private Date momentTime;

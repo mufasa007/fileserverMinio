@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.activeclub.fileserverminio.web.dao.RecordDao">
+
+    <resultMap id="BaseResultMap" type="com.activeclub.fileserverminio.bean.pojo.Record">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="moment_time" jdbcType="TIMESTAMP" property="momentTime"/>
+    </resultMap>
+
+    <sql id="all_file">
+        d.id,d.file_code,d.ip,d.type,d.moment_time
+    </sql>
+
+    <insert id="insert" parameterType="com.activeclub.fileserverminio.bean.pojo.File">
+        insert into "record"(file_code, ip, type)
+        values (#{fileCode}, #{ip}, #{type});
+    </insert>
+
+    <select id="getByCondition" resultType="com.activeclub.fileserverminio.bean.pojo.Record">
+        select
+        <include refid="all_file"/>
+        from "record" d
+        where
+        <include refid="condition_sql"/>
+    </select>
+
+    <sql id="condition_sql">
+        <if test="fileCode != null and fileCode !=''">
+            and file_code = #{fileCode}
+        </if>
+        <if test="ip != null and ip !=''">
+            and ip = #{ip}
+        </if>
+        <if test="type != null">
+            and type = #{type}
+        </if>
+        <if test="beforeTime != null">
+            and moment_time <![CDATA[<=]]> #{beforeTime}
+        </if>
+        <if test="afterTime != null">
+            and moment_time <![CDATA[>=]]> #{afterTime}
+        </if>
+    </sql>
+
+</mapper>

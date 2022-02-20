@@ -1,6 +1,7 @@
 package com.activeclub.fileserverminio.web.controller;
 
 import com.activeclub.fileserverminio.bean.dto.FileOperationDto;
+import com.activeclub.fileserverminio.core.annotation.recoredRequest.RequestRecord;
 import com.activeclub.fileserverminio.core.bean.pojo.BaseResponse;
 import com.activeclub.fileserverminio.core.web.BaseController;
 import com.activeclub.fileserverminio.web.service.FileService;
@@ -46,6 +47,7 @@ public class FileController extends BaseController {
         return success("下载成功");
     }
 
+    @RequestRecord
     @ApiOperation(value = "预览")
     @GetMapping("/preview")
     @ResponseBody
@@ -56,7 +58,8 @@ public class FileController extends BaseController {
     @ApiOperation(value = "删除")
     @GetMapping("/delete")
     @ResponseBody
-    public BaseResponse delete() {
+    public BaseResponse delete(String fileCode) {
+        fileService.delete(fileCode);
         return success("删除成功");
     }
 
