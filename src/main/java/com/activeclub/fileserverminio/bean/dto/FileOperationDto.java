@@ -10,11 +10,11 @@ public class FileOperationDto {
 
     @ApiModelProperty(value = "minio中的仓库名称")
     @NotBlank(message = "数据桶名称不能为空! ")
-    private String bucketName;
+    private String minioBucket;
 
     @ApiModelProperty("minio中的仓库路径")
     @NotBlank(message = "数据存储路径不能为空! ")
-    private String path;
+    private String minioPath;
 
     @ApiModelProperty("创建人名称")
     private String accountName;

@@ -12,10 +12,15 @@ public class MinioCoreVo {
     @ApiModelProperty("文件名称")
     private String fileName;
 
+    @ApiModelProperty("文件格式")
+    private String format;
+
     @ApiModelProperty("minio中的仓库名称")
-    private String bucketName;
+    private String minioBucket;
 
     @ApiModelProperty("minio中的仓库路径")
-    private String path;
+    private String minioPath;
+
+
 
 }

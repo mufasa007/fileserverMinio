@@ -32,16 +32,19 @@ public class File implements Serializable {
 
     /* minio核心数据 */
     @ApiModelProperty("minio中的仓库名称")
-    private String bucketName;
+    private String minioBucket;
 
     @ApiModelProperty("minio中的仓库路径")
-    private String path;
+    private String minioPath;
 
 
 
     /* 辅助数据 */
     @ApiModelProperty("md5码")
     private String md5Code;
+
+    @ApiModelProperty("文件格式")
+    private String format;
 
     @ApiModelProperty("文件大小")
     private Long size;

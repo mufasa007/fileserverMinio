@@ -7,8 +7,12 @@ import com.activeclub.fileserverminio.web.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @Api(tags = "api-v1实体文件操作")
@@ -45,8 +49,8 @@ public class FileController extends BaseController {
     @ApiOperation(value = "预览")
     @GetMapping("/preview")
     @ResponseBody
-    public BaseResponse preview() {
-        return success("预览成功");
+    public ResponseEntity<Object> preview(String fileCode, HttpServletResponse res) {
+        return fileService.preview(fileCode,res);
     }
 
     @ApiOperation(value = "删除")

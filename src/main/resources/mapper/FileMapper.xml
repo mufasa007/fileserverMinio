@@ -9,10 +9,11 @@
         <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
         <result column="preview_url" jdbcType="VARCHAR" property="previewUrl"/>
 
-        <result column="bucket_name" jdbcType="VARCHAR" property="bucketName"/>
-        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="minio_bucket" jdbcType="VARCHAR" property="minioBucket"/>
+        <result column="minio_path" jdbcType="VARCHAR" property="minioPath"/>
 
         <result column="md5_code" jdbcType="VARCHAR" property="md5Code"/>
+        <result column="format" jdbcType="VARCHAR" property="format"/>
         <result column="size" jdbcType="INTEGER" property="size"/>
         <result column="view_frequency" jdbcType="INTEGER" property="viewFrequency"/>
         <result column="creator_account_name" jdbcType="INTEGER" property="creatorAccountName"/>
@@ -30,30 +31,29 @@
     </sql>
 
     <insert id="upsert" parameterType="com.activeclub.fileserverminio.bean.pojo.File">
-        insert into "file"(file_code, file_name, preview_url, bucket_name, "path", md5_code, "size",
-                           view_frequency, creator_account_name, overdue_time)
-        values (#{file_code}, #{file_name}, #{preview_url, #{bucket_name},
-                #{"path"}, {md5_code}, #{"size"}, #{view_frequency}, #{creator_account_name},
-                #{overdue_time}) ON CONFLICT (file_code,flag)
-        DO
-        UPDATE SET file_name = #{fileName},
-            preview_url = #{previewUrl},
-            bucket_name = #{bucketName},
-            "path" = #{path},
-            md5_code = #{md5Code},
-            "size" = #{size},
-            view_frequency = #{md5Code},
-            update_account_name = #{creatorAccountName},
-            overdue_time = #{overdueTime},
-            update_time = now()
-        where file_code = #{fileCode};
+        insert into "file"(file_code, file_name, preview_url, minio_bucket, minio_path, md5_code, "size",
+                           creator_account_name, overdue_time, "format")
+        values (#{fileCode}, #{fileName}, #{previewUrl}, #{minioBucket},
+                #{minioPath}, #{md5Code}, #{size}, #{creatorAccountName},
+                #{overdueTime}, #{format})
+        ON CONFLICT (file_code,flag)
+            DO UPDATE SET file_name           = #{fileName},
+                          preview_url         = #{previewUrl},
+                          minio_bucket        = #{minioBucket},
+                          "minio_path"        = #{minioPath},
+                          md5_code            = #{md5Code},
+                          "size"              = #{size},
+                          update_account_name = #{creatorAccountName},
+                          overdue_time        = #{overdueTime},
+                          "format"            = #{format},
+                          update_time         = now();
     </insert>
 
     <select id="getMinioCoreVoByFileCode" resultType="com.activeclub.fileserverminio.bean.vo.MinioCoreVo">
-        select file_code, file_name,bucket_name, "path"
+        select file_code, file_name, minio_bucket, "minio_path", "format"
         from "file"
         where flag = 0
-          and file_code = #{file_code};
+          and file_code = #{fileCode};
     </select>
 
 

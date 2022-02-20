@@ -3,6 +3,8 @@ package com.activeclub.fileserverminio.web.service;
 import com.activeclub.fileserverminio.bean.dto.FileOperationDto;
 import com.activeclub.fileserverminio.bean.vo.FileCoreVo;
 import io.minio.errors.*;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +43,6 @@ public interface FileService {
      *
      * @return 文件核心信息
      */
-    void preview(String fileCode, HttpServletResponse res) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException;
+    ResponseEntity<Object> preview(String fileCode, HttpServletResponse res);
 
 }
