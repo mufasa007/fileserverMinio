@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.activeclub</groupId>
     <artifactId>fileserverMinio</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>V1.0.0</version>
     <name>fileserverMinio</name>
     <description>a fileserver replaced of aliyun's oss for free ! </description>
     <properties>
