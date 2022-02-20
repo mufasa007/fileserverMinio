@@ -68,7 +68,7 @@ springBoot、minio、postgres、redis、caffeine、swagger
 
 ## 6，遇到问题解决
 
-### 6.1，minio启动报错
+### 6.1，minio启动报错（已解决）
 
 ```json
 ***************************
@@ -112,7 +112,7 @@ minio使用的最新版，但是其依赖的okhttp版本不是最新的，重新
 
 
 
-### 6.2，mybatis 转义符
+### 6.2，mybatis 转义符（已解决）
 
 mapper文件格式为 xml
 
@@ -126,15 +126,51 @@ mapper文件格式为 xml
 
 
 
-### 6.3，获取请求者的真实ip
+### 6.3，获取请求者的真实ip（未解决）
+
+```java
+    public String getIpAddr(HttpServletRequest request) {
+        String ip = null;
+        // 处理代理情况
+        ip = request.getHeader("x-forwarded-for");
+        if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+            if (ip.equals("127.0.0.1")) {
+                InetAddress inet = null;// 根据网卡取本机配置的IP
+                try {
+                    inet = InetAddress.getLocalHost();//idea-PC/192.168.212.144
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                ip = inet.getHostAddress();//192.168.212.144
+            }
+        }
+        // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割,多级代理的时候会得到多个以,分割的ip，
+        //这时候第一个是真实的客户端ip
+        if (ip != null && ip.length() > 15) { // "***.***.***.***".length()
+            if (ip.indexOf(",") > 0) {
+                ip = ip.substring(0, ip.indexOf(","));
+            }
+        }
+        return ip;
+    }
+```
+
+但是，使用frp网络代理依然没办法直接获取到真实ip地址
 
 
 
-### 6.4，jmeter聚合报告导出时乱码的解决
+
+
+### 6.4，jmeter聚合报告导出时乱码的解决（已解决）
 
 先使用记事本打开后，选择编码格式后，得新保存既可
-
-![img](D:\3_project\github\fileserverMinio\README.assets\835259-20160315094330490-893529549.png)
 
 使用编码器打开后选择另存为，将编码从原来的UTF-8改变成ANSI格式。
 

@@ -13,6 +13,8 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,15 +43,33 @@ public class RequestUtil {
     }
 
     public String getIpAddr(HttpServletRequest request) {
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        String ip = null;
+        // 处理代理情况
+        ip = request.getHeader("x-forwarded-for");
+        if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        if (!StringUtils.hasLength(ip) || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
+            if (ip.equals("127.0.0.1")) {
+                InetAddress inet = null;// 根据网卡取本机配置的IP
+                try {
+                    inet = InetAddress.getLocalHost();//idea-PC/192.168.212.144
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                ip = inet.getHostAddress();//192.168.212.144
+            }
+        }
+        // 对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割,多级代理的时候会得到多个以,分割的ip，
+        //这时候第一个是真实的客户端ip
+        if (ip != null && ip.length() > 15) { // "***.***.***.***".length()
+            if (ip.indexOf(",") > 0) {
+                ip = ip.substring(0, ip.indexOf(","));
+            }
         }
         return ip;
     }
