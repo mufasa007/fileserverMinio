@@ -118,12 +118,10 @@ public class FileServiceImpl implements InitializingBean, FileService {
         }
 
         // 初始化返回数据
-        Long size = multipartFile.getSize();
 
-        String creatorAccountName = sessionService.getPreUser();
         String fileCode = UUID.randomUUID().toString().replace("-", "");
-        String previewUrl = defaultConfig.getForeignIp() + ":" + defaultConfig.getForeignPort() +
-                NormalConstant.preview_url_prefix + fileCode;
+        String previewUrl = defaultConfig.getForeignIp() + ":" + defaultConfig.getForeignPort()
+                + defaultConfig.getServerServletContextPath() + NormalConstant.preview_url_prefix + fileCode;
 
         FileCoreVo fileCoreVo = new FileCoreVo();
         fileCoreVo.setFileCode(fileCode);
@@ -141,7 +139,7 @@ public class FileServiceImpl implements InitializingBean, FileService {
         file.setMinioPath(minioPath);
 
         file.setMd5Code(md5Code);
-        file.setSize(size);
+        file.setSize(multipartFile.getSize());
         file.setCreatorAccountName(sessionService.getPreUser());
         // 数据库操作(异步) todo
         dbService.upsertFileInfo(file);

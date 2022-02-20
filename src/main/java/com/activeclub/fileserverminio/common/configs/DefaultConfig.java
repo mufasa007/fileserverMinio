@@ -19,6 +19,9 @@ public class DefaultConfig implements InitializingBean {
     @Value("${foreign.port:40000}")
     private String foreignPort;
 
+    @Value("${server.servlet.context-path:/acfileserver}")
+    private String serverServletContextPath;
+
     @Override
     public void afterPropertiesSet() {
 
