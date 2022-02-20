@@ -49,8 +49,8 @@ public class FileController extends BaseController {
     @ApiOperation(value = "预览")
     @GetMapping("/preview")
     @ResponseBody
-    public ResponseEntity<Object> preview(String fileCode, HttpServletResponse res) {
-        return fileService.preview(fileCode,res);
+    public void preview(String fileCode, HttpServletResponse res) {
+        fileService.preview(fileCode, res);
     }
 
     @ApiOperation(value = "删除")

@@ -43,6 +43,6 @@ public interface FileService {
      *
      * @return 文件核心信息
      */
-    ResponseEntity<Object> preview(String fileCode, HttpServletResponse res);
+    void preview(String fileCode, HttpServletResponse res);
 
 }

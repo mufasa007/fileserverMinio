@@ -177,59 +177,18 @@ public class FileServiceImpl implements InitializingBean, FileService {
      * @return 文件核心信息
      */
     @Override
-    public ResponseEntity<Object> preview(String fileCode, HttpServletResponse res) {
+    public void preview(String fileCode, HttpServletResponse res) {
         // 通过fileCode查询文件核心信息
         MinioCoreVo minioCoreVo = dbService.getMinioCoreVoByFileCode(fileCode);
         if (ObjectUtils.isEmpty(minioCoreVo)) {
-            throw new BaseException(PARAM_IS_NULL, "查询该文件code数据为空");
+            throw new BaseException(PARAM_IS_NULL, "查询该文件信息为空");
         }
 
-        StatObjectArgs statObjectArgs = StatObjectArgs.builder()
-                .bucket(minioCoreVo.getMinioBucket())
-                .object(minioCoreVo.getMinioPath())
-                .build();
+        // 调用minio获取文件流
+        InputStream inputStream = fileUtil.getObject(minioCoreVo.getMinioBucket(), minioCoreVo.getMinioPath());
 
-        try {
-            minioClient.statObject(statObjectArgs);
-            GetObjectArgs getObjectArgs = GetObjectArgs.builder()
-                    .bucket(minioCoreVo.getMinioBucket())
-                    .object(minioCoreVo.getMinioPath())
-                    .build();
-            InputStream inputStream = minioClient.getObject(getObjectArgs);
-
-            //获取文件类型
-            String suffix = minioCoreVo.getFormat();
-            if (!suffix.equals("txt")
-                    && !suffix.equals("doc") &&
-                    !suffix.equals("docx") &&
-                    !suffix.equals("xls") &&
-                    !suffix.equals("xlsx") &&
-                    !suffix.equals("ppt") &&
-                    !suffix.equals("jpg") &&
-                    !suffix.equals("pptx")) {
-                throw new Exception("文件格式不支持预览");
-            }
-            OutputStream outputStream = res.getOutputStream();
-            res.setContentType("image/jpeg");
-            //创建存放文件内容的数组
-            byte[] buff =new byte[1024];
-            //所读取的内容使用n来接收
-            int n;
-            //当没有读取完时,继续读取,循环
-            while((n=inputStream.read(buff))!=-1){
-                //将字节数组的数据全部写入到输出流中
-                outputStream.write(buff,0,n);
-            }
-            //强制将缓存区的数据进行输出
-            outputStream.flush();
-            //关流
-            outputStream.close();
-            inputStream.close();
-        } catch (Exception e) {
-            log.error("获取文件数据失败! ", e);
-            throw new BaseException(GET_FILE_DATA_FAIL, "获取文件数据失败! ");
-        }
-        return null;
+        // 预览操作
+        fileUtil.onlinePreview(minioCoreVo,inputStream,res);
     }
 
 }
