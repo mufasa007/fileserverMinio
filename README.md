@@ -192,6 +192,16 @@ mapper文件格式为 xml
 
 
 
+### 6.8，frp代理本地127.0.0.1的端口进行tcp连接被拒绝（已解决）
+
+frpc中的本地ip不能直接配置为127.0.0.1，需要使用真实ip（例如window中的ipconfig、linux中的ip addr查看）
+
+
+
+### 6.9，systemLog日志记录请求url、参数等（已解决）
+
+
+
 
 
 ## 7，性能调优
