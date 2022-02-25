@@ -9,15 +9,15 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.activeclub</groupId>
-    <artifactId>fileserverMinio</artifactId>
-    <version>V1.0.0</version>
-    <name>fileserverMinio</name>
+    <artifactId>acfileserver</artifactId>
+    <version>V1.0.1</version>
     <description>a fileserver replaced of aliyun's oss for free ! </description>
     <properties>
         <java.version>8</java.version>
 
         <!-- fixme 后续排查为什么，使用3.0.0版本没有swagger页面显示 -->
         <swagger.version>2.9.2</swagger.version>
+        <main.class>com.activeclub.fileserverminio.Application</main.class>
     </properties>
 
     <dependencies>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>RELEASE</version>
+            <version>2.11.0</version>
         </dependency>
 
 
@@ -136,24 +136,147 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+
+            <!-- 打主jar包时，排掉启动脚本 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**.sh</exclude>
+                </excludes>
+            </resource>
+
+            <!-- 配置文件 -->
+            <resource>
+                <targetPath>${project.build.directory}/app/${project.artifactId}/config</targetPath>
+                <directory>src/main/config</directory>
+                <excludes>
+                    <exclude>readme.md</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+
+            <!--  -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}/classes</targetPath>
+                <excludes>
+                    <exclude>src/main/resources/bin</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
+
+            <!-- 相关启动脚本(有效) -->
+            <resource>
+                <targetPath>${project.build.directory}/app/${project.artifactId}/bin</targetPath>
+                <directory>src/main/resources/bin</directory>
+                <filtering>true</filtering>
+            </resource>
+
+        </resources>
         <plugins>
             <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>5.0.3</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
             </plugin>
+
+            <!-- 生成可执行JAR包命令 maven-jar-plugin -->
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.2.6.RELEASE</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
                 <executions>
                     <execution>
+                        <id>default-jar</id>
+                        <phase>package</phase>
                         <goals>
-                            <goal>repackage</goal>
+                            <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <classesDirectory>${project.basedir}/target/classes</classesDirectory>
+                            <excludes>
+                                <exclude>bin/</exclude>
+                            </excludes>
+                            <outputDirectory>
+                                ${project.build.directory}/app/${project.artifactId}/
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <useUniqueVersions>false</useUniqueVersions>
+                            <mainClass>${main.class}</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>./</Class-Path>
+                            <Server-Version>V${project.version}</Server-Version>
+                            <Timestamp>${maven.build.timestamp}</Timestamp>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- 拷贝依赖的jar包到lib目录(有效已完成) ../target/app/lib-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/app/${project.artifactId}/lib
+                            </outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- 解决资源文件的编码问题 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/config</directory>
+                                </resource>
+                            </resources>
+                            <encoding>UTF-8</encoding>
+                            <outputDirectory>${project.build.directory}/classes/config</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
     <repositories>
