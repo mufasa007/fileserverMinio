@@ -14,9 +14,17 @@
 
 ## 2，构架描述
 
+![image-20220225232247171](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimage-20220225232247171.png)
+
+
+
 使用技术：
 
 springBoot、minio、postgres、redis、caffeine、swagger
+
+
+
+
 
 
 
@@ -202,6 +210,36 @@ frpc中的本地ip不能直接配置为127.0.0.1，需要使用真实ip（例如
 
 
 
+### 6.10，spring.profiles.active不生效（已解决）
+
+target中的classes/config目录中没有正常生成配置文件
+
+![image-20220226002619102](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimage-20220226002619102.png)
+
+
+
+### 6.11，WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader（已解决）
+
+日志警告：
+
+```json
+2022-02-26 00:25:07.914 [main] WARN  s.d.s.w.readers.parameter.ParameterDataTypeReader - Trying to infer dataType java.util.List<java.lang.String>
+```
+
+原因（未使用[spring](https://so.csdn.net/so/search?q=spring&spm=1001.2101.3001.7020)规定的基本类型接受前端传送来的数据）：
+
+```
+    @ApiOperation(value = "批量删除")
+    @GetMapping("/deleteBatchByGet")
+    @ResponseBody
+    public BaseResponse deleteBatchByGet(List<String> fileCodeList) {
+       fileService.deleteBatch(fileCodeList);
+        return success("批量删除");
+    }
+```
+
+修改为List[]  fileCodeList即可消除警告
+
 
 
 ## 7，性能调优
@@ -239,6 +277,7 @@ frpc中的本地ip不能直接配置为127.0.0.1，需要使用真实ip（例如
 
 - 使用md5码实现union filesystem
 - 集成redis+caffeine热点数据缓存
+- 集成阿里云oss实现文件的上传下载
 
 
 
@@ -249,3 +288,5 @@ frpc中的本地ip不能直接配置为127.0.0.1，需要使用真实ip（例如
 
 
 1，[jmeter聚合报告导出时乱码的解决](https://blog.csdn.net/weixin_33816300/article/details/93395751)
+
+2，[阿里云OSS 官网api文档](https://help.aliyun.com/document_detail/32009.html)

@@ -18,7 +18,7 @@ import java.util.Objects;
 
 import static com.activeclub.fileserverminio.common.constants.OptionCode.*;
 import static com.activeclub.fileserverminio.common.constants.PreviewConstant.contextType;
-import static com.activeclub.fileserverminio.web.service.impl.FileServiceImpl.minioClient;
+import static com.activeclub.fileserverminio.web.service.file.impl.FileMinioImpl.minioClient;
 
 @Log4j2
 @Component

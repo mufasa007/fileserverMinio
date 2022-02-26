@@ -1,4 +1,4 @@
-package com.activeclub.fileserverminio.web.service;
+package com.activeclub.fileserverminio.web.service.qury;
 
 import com.activeclub.fileserverminio.bean.pojo.File;
 import com.activeclub.fileserverminio.bean.vo.MinioCoreVo;

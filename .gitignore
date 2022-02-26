@@ -38,4 +38,6 @@ build/
 /mvnw.cmd
 
 ### application.properties ###
-application-dev.properties
+application-prod.properties
+/README.assets/
+/LOG_HOME_IS_UNDEFINED/

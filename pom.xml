@@ -138,41 +138,57 @@
     <build>
         <finalName>${project.artifactId}</finalName>
         <resources>
-
-            <!-- 打主jar包时，排掉启动脚本 -->
             <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>**.sh</exclude>
-                </excludes>
+                <directory>src/main/resources/config</directory>
             </resource>
 
-            <!-- 配置文件 -->
-            <resource>
-                <targetPath>${project.build.directory}/app/${project.artifactId}/config</targetPath>
-                <directory>src/main/config</directory>
-                <excludes>
-                    <exclude>readme.md</exclude>
-                </excludes>
-                <filtering>true</filtering>
-            </resource>
+            <!-- 用于本地启动调试-生成target/classes文件-->
+            <!-- config文件 -->
+<!--            <resource>-->
+<!--                <targetPath>${project.build.directory}/classes</targetPath>-->
+<!--                <directory>src/main/config</directory>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
 
-            <!--  -->
-            <resource>
-                <directory>src/main/resources</directory>
-                <targetPath>${project.build.directory}/classes</targetPath>
-                <excludes>
-                    <exclude>src/main/resources/bin</exclude>
-                </excludes>
-                <filtering>true</filtering>
-            </resource>
+<!--            &lt;!&ndash; resources &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <targetPath>${project.build.directory}/classes</targetPath>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <excludes>-->
+<!--                    <exclude>src/main/resources/bin</exclude>-->
+<!--                </excludes>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
 
-            <!-- 相关启动脚本(有效) -->
-            <resource>
-                <targetPath>${project.build.directory}/app/${project.artifactId}/bin</targetPath>
-                <directory>src/main/resources/bin</directory>
-                <filtering>true</filtering>
-            </resource>
+            <!-- 用于打包生成jar相关资源 -->
+<!--            &lt;!&ndash; 打主jar包时，排掉启动脚本 &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <excludes>-->
+<!--                    <exclude>**.sh</exclude>-->
+<!--                </excludes>-->
+<!--            </resource>-->
+
+<!--            &lt;!&ndash; 配置文件 &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <targetPath>${project.build.directory}/app/${project.artifactId}/config</targetPath>-->
+<!--                <directory>src/main/config</directory>-->
+<!--                <excludes>-->
+<!--                    <exclude>readme.md</exclude>-->
+<!--                </excludes>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
+
+
+
+
+
+<!--            &lt;!&ndash; 相关启动脚本(有效) &ndash;&gt;-->
+<!--            <resource>-->
+<!--                <targetPath>${project.build.directory}/app/${project.artifactId}/bin</targetPath>-->
+<!--                <directory>src/main/resources/bin</directory>-->
+<!--                <filtering>true</filtering>-->
+<!--            </resource>-->
 
         </resources>
         <plugins>

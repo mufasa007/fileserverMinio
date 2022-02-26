@@ -1,10 +1,10 @@
-package com.activeclub.fileserverminio.web.service.impl;
+package com.activeclub.fileserverminio.web.service.qury.impl;
 
 import com.activeclub.fileserverminio.bean.pojo.File;
 import com.activeclub.fileserverminio.bean.vo.MinioCoreVo;
 import com.activeclub.fileserverminio.core.bean.pojo.BaseException;
 import com.activeclub.fileserverminio.web.dao.FileDao;
-import com.activeclub.fileserverminio.web.service.DbService;
+import com.activeclub.fileserverminio.web.service.qury.DbService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

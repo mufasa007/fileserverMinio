@@ -1,4 +1,4 @@
-package com.activeclub.fileserverminio.web.service.impl;
+package com.activeclub.fileserverminio.web.service.file.impl;
 
 import com.activeclub.fileserverminio.bean.dto.FileOperationDto;
 import com.activeclub.fileserverminio.bean.pojo.File;
@@ -11,14 +11,15 @@ import com.activeclub.fileserverminio.common.utils.DateUtil;
 import com.activeclub.fileserverminio.common.utils.FileUtil;
 import com.activeclub.fileserverminio.core.bean.pojo.BaseException;
 import com.activeclub.fileserverminio.core.utils.SessionService;
-import com.activeclub.fileserverminio.web.service.DbService;
-import com.activeclub.fileserverminio.web.service.FileService;
+import com.activeclub.fileserverminio.web.service.qury.DbService;
+import com.activeclub.fileserverminio.web.service.file.FileService;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,10 +31,10 @@ import java.util.UUID;
 
 import static com.activeclub.fileserverminio.common.constants.OptionCode.PARAM_IS_NULL;
 
-
+@Lazy
 @Log4j2
 @Service
-public class FileServiceImpl implements InitializingBean, FileService {
+public class FileMinioImpl implements InitializingBean, FileService {
 
     @Value("${minio.url:http://127.0.0.1:9000}")
     public String minioUrl;

@@ -1,4 +1,4 @@
-package com.activeclub.fileserverminio.web.service;
+package com.activeclub.fileserverminio.web.service.file;
 
 import com.activeclub.fileserverminio.bean.dto.FileOperationDto;
 import com.activeclub.fileserverminio.bean.vo.FileCoreVo;
