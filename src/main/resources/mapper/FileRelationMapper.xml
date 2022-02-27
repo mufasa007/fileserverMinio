@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.activeclub.fileserverminio.web.dao.FileRelationDao">
+
+    <resultMap id="BaseResultMap" type="com.activeclub.fileserverminio.bean.pojo.FileRelation">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="flag" jdbcType="BIGINT" property="flag"/>
+        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
+        <result column="bucket" jdbcType="VARCHAR" property="bucket"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+
+        <result column="md5" jdbcType="VARCHAR" property="md5"/>
+        <result column="creator_account_name" jdbcType="INTEGER" property="creatorAccountName"/>
+        <result column="update_account_name" jdbcType="INTEGER" property="updateAccountName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="overdue_time" jdbcType="TIMESTAMP" property="overdueTime"/>
+    </resultMap>
+
+    <sql id="all_file">
+        d.id,d.flag,d.file_code,d.bucket_name,d.path,d.md5,
+        d.creator_account_name,d.update_account_name,d.create_time,d.update_time,d.overdue_time
+    </sql>
+
+    <insert id="upsert" parameterType="com.activeclub.fileserverminio.bean.pojo.FileRelation">
+        insert into "file_relation"(file_code, bucket, path, md5, creator_account_name)
+        values (#{fileCode}, #{bucket}, #{path}, #{md5}, #{creatorAccountName})
+        ON CONFLICT (file_code,flag)
+            DO UPDATE SET bucket                = #{bucket},
+                          "path"                = #{path},
+                          "update_account_name" = #{updateAccountName},
+                          "update_time"         = now();
+    </insert>
+
+    <select id="getFileAllInfoVoByFileCode"
+            resultType="com.activeclub.fileserverminio.bean.vo.FileAllInfoVo">
+        select file_name, bucket, "path", "format"
+        from "file"
+        where flag = 0
+          and md5 = #{md5};
+    </select>
+
+    <select id="getMd5ByFileCode" resultType="java.lang.String">
+        select md5
+        from file_relation
+        where flag = 0
+          and file_code = #{fileCode}
+        limit 1;
+    </select>
+
+
+</mapper>

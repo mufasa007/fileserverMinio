@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -56,8 +57,9 @@ public class FileController extends BaseController {
     @ApiOperation(value = "下载")
     @GetMapping("/download")
     @ResponseBody
-    public BaseResponse download(@RequestParam(value = "fileCode", required = true) String fileCode) {
-        operate.download(fileCode);
+    public BaseResponse download(@RequestParam(value = "fileCode", required = true) String fileCode
+            , HttpServletResponse response) {
+        operate.download(fileCode,response);
         return success("下载成功");
     }
 

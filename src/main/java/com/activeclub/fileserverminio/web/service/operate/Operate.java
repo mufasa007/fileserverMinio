@@ -4,6 +4,7 @@ import com.activeclub.fileserverminio.bean.dto.FileOperationDto;
 import com.activeclub.fileserverminio.bean.vo.FileCoreVo;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -40,13 +41,13 @@ public interface Operate {
      *
      * @return 文件核心信息
      */
-    FileCoreVo updateBatch(List<MultipartFile> fileList,
+    List<FileCoreVo> updateBatch(List<MultipartFile> fileList,
                            List<String> fileCodeList);
 
     /**
      * 下载文件
      */
-    void download(String fileCode);
+    void download(String fileCode, HttpServletResponse response);
 
     /**
      * 批量下载文件

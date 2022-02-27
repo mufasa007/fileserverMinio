@@ -45,5 +45,13 @@
           and md5 = #{md5};
     </select>
 
+    <select id="getUrlByMd5" resultType="java.lang.String">
+        select url
+        from file
+        where flag = 0
+          and md5 = #{md5}
+        limit 1;
+    </select>
+
 
 </mapper>

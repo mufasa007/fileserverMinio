@@ -13,4 +13,11 @@ public interface FileDao {
 
     MinioCoreVo getMinioCoreVoByFileCode(String fileCode);
 
+    /**
+     * 通过md5码获取下载链接
+     *
+     * @param md5 md5码
+     * @return url
+     */
+    String getUrlByMd5(String md5);
 }

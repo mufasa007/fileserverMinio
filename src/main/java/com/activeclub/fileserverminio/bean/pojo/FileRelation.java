@@ -2,13 +2,15 @@ package com.activeclub.fileserverminio.bean.pojo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Setter
+@Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ApiModel("虚拟文件与实体文件关系类")
 public class FileRelation {
 
@@ -49,6 +51,9 @@ public class FileRelation {
     @ApiModelProperty("修改日期")
     private Date updateTime;
 
+    /**
+     * todo 这个特效可以晚点实现
+     */
     @ApiModelProperty("过期日期")
     private Date overdueTime;
 

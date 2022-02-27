@@ -25,18 +25,11 @@ public class File implements Serializable {
     @ApiModelProperty("md5码:核心数据(唯一码)")
     private String md5;
 
-    @ApiModelProperty("文件名称")
-    private String fileName;
-
     @ApiModelProperty("下载链接")
     private String url;
 
-    /* minio核心数据 */
-    @ApiModelProperty("仓库名称")
-    private String bucket;
-
-    @ApiModelProperty("文件路径")
-    private String path;
+    @ApiModelProperty("文件名称")
+    private String fileName;
 
     @ApiModelProperty("文件格式")
     private String format;
@@ -46,6 +39,13 @@ public class File implements Serializable {
 
     @ApiModelProperty("被阅览的次数")
     private Long viewFrequency;
+
+    /* 以下为文件真实存储数据目录,对外屏蔽 */
+    @ApiModelProperty("仓库名称")
+    private String bucket;
+
+    @ApiModelProperty("文件路径")
+    private String path;
 
     @ApiModelProperty("初始创建人名称")
     private String creatorAccountName;

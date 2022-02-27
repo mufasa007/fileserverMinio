@@ -1,14 +1,21 @@
 package com.activeclub.fileserverminio.web.service.cache.impl;
 
 import com.activeclub.fileserverminio.web.service.cache.CacheService;
+import com.google.common.collect.Maps;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Lazy
 @Log4j2
-@Service(value = "redisImpl")
-public class RedisImpl implements CacheService {
+@Service(value = "memoryImpl")
+public class MemoryImpl implements CacheService {
+
+    private Map<String, Object> cache =
+            Maps.newHashMapWithExpectedSize(1024);
+
     /**
      * 判断是否存在
      *
@@ -17,7 +24,7 @@ public class RedisImpl implements CacheService {
      */
     @Override
     public boolean exists(String key) {
-        return false;
+        return cache.containsKey(key);
     }
 
     /**
@@ -28,40 +35,40 @@ public class RedisImpl implements CacheService {
      */
     @Override
     public Object get(String key) {
-        return null;
+        return cache.get(key);
     }
 
     /**
      * 新增数据
      *
-     * @param key   键值
-     * @param value
+     * @param key 键值
      */
     @Override
     public void put(String key, Object value) {
-
+        cache.put(key, value);
     }
 
     /**
      * 获取热点数据
+     * todo 优化
      *
      * @param key 键值
      * @return Object
      */
     @Override
     public Object getHotData(String key) {
-        return null;
+        return cache.get(key);
     }
 
     /**
      * 新增热点数据
+     * todo 优化
      *
-     * @param key   键值
-     * @param value
+     * @param key 键值
      */
     @Override
     public void putHotData(String key, Object value) {
-
+        cache.put(key, value);
     }
 
     /**
@@ -83,6 +90,6 @@ public class RedisImpl implements CacheService {
      */
     @Override
     public void del(String key) {
-
+        cache.remove(key);
     }
 }
