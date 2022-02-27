@@ -2,8 +2,6 @@ package com.activeclub.fileserverminio.common.utils;
 
 import com.activeclub.fileserverminio.bean.vo.MinioCoreVo;
 import com.activeclub.fileserverminio.core.bean.pojo.BaseException;
-import io.minio.GetObjectArgs;
-import io.minio.StatObjectArgs;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,47 +14,47 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.util.Objects;
 
-import static com.activeclub.fileserverminio.common.constants.OptionCode.*;
+import static com.activeclub.fileserverminio.common.constants.OptionCode.GET_DATA_FAIL;
+import static com.activeclub.fileserverminio.common.constants.OptionCode.GET_FILE_DATA_FAIL;
 import static com.activeclub.fileserverminio.common.constants.PreviewConstant.contextType;
-import static com.activeclub.fileserverminio.web.service.file.impl.FileMinioImpl.minioClient;
 
 @Log4j2
 @Component
 public class FileUtil {
 
-    /**
-     * 调用minio获取文件流
-     *
-     * @param minioBucket 文件minio桶信息
-     * @param minioPath   文件minio路径信息
-     * @return 文件流
-     */
-    public InputStream getObject(String minioBucket, String minioPath) {
-        // 校验数据
-        if (!StringUtils.hasLength(minioBucket)) {
-            throw new BaseException(PARAM_IS_NULL, "文件minio桶信息为空! ");
-        }
-        if (!StringUtils.hasLength(minioPath)) {
-            throw new BaseException(PARAM_IS_NULL, "文件minio路径信息为空! ");
-        }
-
-        // 调用minio获取文件流
-        try {
-            StatObjectArgs statObjectArgs = StatObjectArgs.builder()
-                    .bucket(minioBucket)
-                    .object(minioPath)
-                    .build();
-            minioClient.statObject(statObjectArgs);
-            GetObjectArgs getObjectArgs = GetObjectArgs.builder()
-                    .bucket(minioBucket)
-                    .object(minioPath)
-                    .build();
-            return minioClient.getObject(getObjectArgs);
-        } catch (Exception e) {
-            log.error("调用minio服务获取文件流失败! ", e);
-            throw new BaseException(GET_FILE_DATA_FAIL, "调用minio服务获取文件流失败! ");
-        }
-    }
+//    /**
+//     * 调用minio获取文件流
+//     *
+//     * @param minioBucket 文件minio桶信息
+//     * @param minioPath   文件minio路径信息
+//     * @return 文件流
+//     */
+//    public InputStream getObject(String minioBucket, String minioPath) {
+//        // 校验数据
+//        if (!StringUtils.hasLength(minioBucket)) {
+//            throw new BaseException(PARAM_IS_NULL, "文件minio桶信息为空! ");
+//        }
+//        if (!StringUtils.hasLength(minioPath)) {
+//            throw new BaseException(PARAM_IS_NULL, "文件minio路径信息为空! ");
+//        }
+//
+//        // 调用minio获取文件流
+//        try {
+//            StatObjectArgs statObjectArgs = StatObjectArgs.builder()
+//                    .bucket(minioBucket)
+//                    .object(minioPath)
+//                    .build();
+//            minioClient.statObject(statObjectArgs);
+//            GetObjectArgs getObjectArgs = GetObjectArgs.builder()
+//                    .bucket(minioBucket)
+//                    .object(minioPath)
+//                    .build();
+//            return minioClient.getObject(getObjectArgs);
+//        } catch (Exception e) {
+//            log.error("调用minio服务获取文件流失败! ", e);
+//            throw new BaseException(GET_FILE_DATA_FAIL, "调用minio服务获取文件流失败! ");
+//        }
+//    }
 
     /**
      * 预览文件操作
@@ -112,13 +110,35 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 通过时间戳重命名
+     *
+     * @param file 文件
+     * @return string
+     */
     public String fileRename(MultipartFile file) {
         // 获取原文件名 + 时间戳(System.currentTimeMillis())，作为上传文件的文件名
-        String[] circleSp = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
+        String[] circleSp = getFileName(file).split("\\.");
         //形成新的文件名
         return circleSp[0] + System.currentTimeMillis() + "." + circleSp[1];
     }
 
+    /**
+     * 获取文件名称
+     *
+     * @param file 文件
+     * @return string
+     */
+    public String getFileName(MultipartFile file) {
+        return Objects.requireNonNull(file.getOriginalFilename());
+    }
+
+    /**
+     * 获取文件格式
+     *
+     * @param file 文件
+     * @return 格式类型
+     */
     public String getFileFormat(MultipartFile file) {
         // 获取原文件名 + 文件类型
         String[] circleSp = Objects.requireNonNull(file.getOriginalFilename()).split("\\.");
@@ -129,5 +149,19 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 通过文件名称获取文件格式
+     * @param fileName 文件名称
+     * @return 文件格式
+     */
+    public String getFileFormat(String fileName) {
+        // 获取原文件名 + 文件类型
+        String[] circleSp = Objects.requireNonNull(fileName).split("\\.");
+        if (circleSp.length >= 2) {
+            return circleSp[1];
+        } else {
+            return null;
+        }
+    }
 
 }

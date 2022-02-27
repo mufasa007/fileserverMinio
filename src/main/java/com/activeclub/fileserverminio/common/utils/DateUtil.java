@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class DateUtil {
 
-    public static String getPreTime(){
+    public static String getPreTime() {
         SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
         sdf.applyPattern("yyyyMMddHHmmssSSS");// a为am/pm的标记
         Date date = new Date();// 获取当前时间
@@ -13,8 +13,12 @@ public class DateUtil {
         return sdf.format(date);
     }
 
-//    public static void main(String[] args) {
-//        DateUtil.getPreTime();
-//
-//    }
+    /**
+     * 获取最大有效值
+     * @return
+     */
+    public static Date getMaxOverdueTime() {
+        return new Date(new Date().getTime() + 3600L * 1000 * 24 * 365 * 100);
+    }
+
 }

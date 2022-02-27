@@ -5,22 +5,18 @@
     <resultMap id="BaseResultMap" type="com.activeclub.fileserverminio.bean.pojo.File">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="flag" jdbcType="BIGINT" property="flag"/>
-        <result column="file_code" jdbcType="VARCHAR" property="fileCode"/>
         <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
-        <result column="preview_url" jdbcType="VARCHAR" property="previewUrl"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
 
-        <result column="minio_bucket" jdbcType="VARCHAR" property="minioBucket"/>
-        <result column="minio_path" jdbcType="VARCHAR" property="minioPath"/>
+        <result column="bucket" jdbcType="VARCHAR" property="bucket"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
 
-        <result column="md5_code" jdbcType="VARCHAR" property="md5Code"/>
+        <result column="md5" jdbcType="VARCHAR" property="md5"/>
         <result column="format" jdbcType="VARCHAR" property="format"/>
         <result column="size" jdbcType="INTEGER" property="size"/>
         <result column="view_frequency" jdbcType="INTEGER" property="viewFrequency"/>
         <result column="creator_account_name" jdbcType="INTEGER" property="creatorAccountName"/>
-        <result column="update_account_name" jdbcType="INTEGER" property="updateAccountName"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <result column="overdue_time" jdbcType="TIMESTAMP" property="overdueTime"/>
     </resultMap>
 
     <sql id="all_file">
@@ -31,29 +27,22 @@
     </sql>
 
     <insert id="upsert" parameterType="com.activeclub.fileserverminio.bean.pojo.File">
-        insert into "file"(file_code, file_name, preview_url, minio_bucket, minio_path, md5_code, "size",
-                           creator_account_name, overdue_time, "format")
-        values (#{fileCode}, #{fileName}, #{previewUrl}, #{minioBucket},
-                #{minioPath}, #{md5Code}, #{size}, #{creatorAccountName},
-                #{overdueTime}, #{format})
-        ON CONFLICT (file_code,flag)
-            DO UPDATE SET file_name           = #{fileName},
-                          preview_url         = #{previewUrl},
-                          minio_bucket        = #{minioBucket},
-                          "minio_path"        = #{minioPath},
-                          md5_code            = #{md5Code},
-                          "size"              = #{size},
-                          update_account_name = #{creatorAccountName},
-                          overdue_time        = #{overdueTime},
-                          "format"            = #{format},
-                          update_time         = now();
+        insert into "file"(file_name, url, bucket, path, md5, "size", creator_account_name, "format")
+        values (#{fileName}, #{url}, #{bucket}, #{path}, #{md5}, #{size}, #{creatorAccountName}, #{format})
+        ON CONFLICT (md5,flag)
+            DO UPDATE SET file_name = #{fileName},
+                          url       = #{url},
+                          bucket    = #{bucket},
+                          "path"    = #{path},
+                          "size"    = #{size},
+                          "format"  = #{format};
     </insert>
 
     <select id="getMinioCoreVoByFileCode" resultType="com.activeclub.fileserverminio.bean.vo.MinioCoreVo">
-        select file_code, file_name, minio_bucket, "minio_path", "format"
+        select file_name, bucket, "path", "format"
         from "file"
         where flag = 0
-          and file_code = #{fileCode};
+          and md5 = #{md5};
     </select>
 
 

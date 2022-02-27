@@ -18,11 +18,11 @@
 
 
 
+![image-20220227105858496](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimgimage-20220227105858496.png)
+
 使用技术：
 
 springBoot、minio、postgres、redis、caffeine、swagger
-
-
 
 
 
@@ -239,6 +239,36 @@ target中的classes/config目录中没有正常生成配置文件
 ```
 
 修改为List[]  fileCodeList即可消除警告
+
+
+
+### 6.12，阿里云oss bucket连接权限不够（待）
+
+不能够直接通过java SDK创建bucket！
+
+当前是直接在阿里云OSS官网上手动创建的bucket，直接调用上传是成功的！
+
+
+
+阿里云OSS自己的一个缺陷吧！我直接连接北京的节点不能创建bucket，要求我必须使用杭州的节点！
+
+```xml
+[ErrorCode]: AccessDenied
+[RequestId]: 621B67A25B40CC383520371F
+[HostId]: test.oss-cn-beijing.aliyuncs.com
+[ResponseError]:
+<?xml version="1.0" encoding="UTF-8"?>
+<Error>
+  <Code>AccessDenied</Code>
+  <Message>The bucket you are attempting to access must be addressed using the specified endpoint. Please send all future requests to this endpoint.</Message>
+  <RequestId>621B67A25B40CC383520371F</RequestId>
+  <HostId>test.oss-cn-beijing.aliyuncs.com</HostId>
+  <Bucket>test</Bucket>
+  <Endpoint>oss-cn-hangzhou.aliyuncs.com</Endpoint>
+</Error>
+```
+
+备注：后续专门出一篇相关api接口研究的博文
 
 
 

@@ -27,14 +27,11 @@ public class DbServiceImpl implements DbService {
      */
     @Override
     public void upsertFileInfo(File file) {
-        if (!StringUtils.hasLength(file.getFileCode())) {
-            throw new BaseException(PARAM_IS_NULL, "文件code为空");
+        if (!StringUtils.hasLength(file.getMd5())) {
+            throw new BaseException(PARAM_IS_NULL, "文件md5为空");
         }
         if (!StringUtils.hasLength(file.getFileName())) {
             throw new BaseException(PARAM_IS_NULL, "文件名称为空");
-        }
-        if (!StringUtils.hasLength(file.getMd5Code())) {
-            throw new BaseException(PARAM_IS_NULL, "文件md5码为空");
         }
         if (file.getSize() == null) {
             throw new BaseException(PARAM_IS_NULL, "文件大小值为空");

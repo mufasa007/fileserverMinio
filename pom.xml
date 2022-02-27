@@ -11,7 +11,7 @@
     <groupId>com.activeclub</groupId>
     <artifactId>acfileserver</artifactId>
     <version>V1.0.1</version>
-    <description>a fileserver replaced of aliyun's oss for free ! </description>
+    <description>a fileserver replaced of aliyun's oss for free !</description>
     <properties>
         <java.version>8</java.version>
 
@@ -132,6 +132,12 @@
             <version>4.9.3</version>
         </dependency>
 
+        <!-- 阿里云oss -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.14.0</version>
+        </dependency>
 
     </dependencies>
 
@@ -144,51 +150,48 @@
 
             <!-- 用于本地启动调试-生成target/classes文件-->
             <!-- config文件 -->
-<!--            <resource>-->
-<!--                <targetPath>${project.build.directory}/classes</targetPath>-->
-<!--                <directory>src/main/config</directory>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
+            <resource>
+                <targetPath>${project.build.directory}/classes</targetPath>
+                <directory>src/main/config</directory>
+                <filtering>true</filtering>
+            </resource>
 
-<!--            &lt;!&ndash; resources &ndash;&gt;-->
-<!--            <resource>-->
-<!--                <targetPath>${project.build.directory}/classes</targetPath>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <excludes>-->
-<!--                    <exclude>src/main/resources/bin</exclude>-->
-<!--                </excludes>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
+            <!-- resources -->
+            <resource>
+                <targetPath>${project.build.directory}/classes</targetPath>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>src/main/resources/bin</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
 
             <!-- 用于打包生成jar相关资源 -->
-<!--            &lt;!&ndash; 打主jar包时，排掉启动脚本 &ndash;&gt;-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <excludes>-->
-<!--                    <exclude>**.sh</exclude>-->
-<!--                </excludes>-->
-<!--            </resource>-->
+            <!-- 打主jar包时，排掉启动脚本 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>**.sh</exclude>
+                </excludes>
+            </resource>
 
-<!--            &lt;!&ndash; 配置文件 &ndash;&gt;-->
-<!--            <resource>-->
-<!--                <targetPath>${project.build.directory}/app/${project.artifactId}/config</targetPath>-->
-<!--                <directory>src/main/config</directory>-->
-<!--                <excludes>-->
-<!--                    <exclude>readme.md</exclude>-->
-<!--                </excludes>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-
-
+            <!-- 配置文件 -->
+            <resource>
+                <targetPath>${project.build.directory}/app/${project.artifactId}/config</targetPath>
+                <directory>src/main/config</directory>
+                <excludes>
+                    <exclude>readme.md</exclude>
+                </excludes>
+                <filtering>true</filtering>
+            </resource>
 
 
-
-<!--            &lt;!&ndash; 相关启动脚本(有效) &ndash;&gt;-->
-<!--            <resource>-->
-<!--                <targetPath>${project.build.directory}/app/${project.artifactId}/bin</targetPath>-->
-<!--                <directory>src/main/resources/bin</directory>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
+            <!-- 相关启动脚本(有效) -->
+            <resource>
+                <targetPath>${project.build.directory}/app/${project.artifactId}/bin</targetPath>
+                <directory>src/main/resources/bin</directory>
+                <filtering>true</filtering>
+            </resource>
 
         </resources>
         <plugins>

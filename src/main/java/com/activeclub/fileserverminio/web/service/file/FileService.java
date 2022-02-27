@@ -18,11 +18,23 @@ import java.security.NoSuchAlgorithmException;
 public interface FileService {
 
     /**
+     * 判断存储空间是否存在
+     *
+     */
+    boolean doesBucketExist(String bucket);
+
+    /**
+     * 创建存储空间
+     *
+     */
+    void createBucket(String bucket);
+
+    /**
      * 上传文件
      *
      * @return 文件核心信息
      */
-    FileCoreVo upload(MultipartFile file, FileOperationDto fileOperationDto);
+    String upload(MultipartFile file, FileOperationDto fileOperationDto);
 
     /**
      * 更新文件
