@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "spring.redis.lettuce.pool.min-active",
+      "type": "java.lang.String",
+      "description": "Description for spring.redis.lettuce.pool.min-active."
+  }
+] }

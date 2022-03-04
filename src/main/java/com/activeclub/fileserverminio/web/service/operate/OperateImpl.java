@@ -38,7 +38,7 @@ public class OperateImpl implements Operate {
     @Autowired
     private FileUtil fileUtil;
 
-    @Resource(name = "${cache.service:memoryImpl}")
+    @Resource(name = "${cache.service:redisImpl}")
     private CacheService cacheService;
 
     @Resource(name = "${file.service:fileAliyunOssImpl}")

@@ -27,7 +27,7 @@ public class DbServiceImpl implements DbService {
     @Autowired
     private FileDao fileDao;
 
-    @Resource(name = "${cache.service:memoryImpl}")
+    @Resource(name = "${cache.service:redisImpl}")
     private CacheService cacheService;
 
     @Autowired

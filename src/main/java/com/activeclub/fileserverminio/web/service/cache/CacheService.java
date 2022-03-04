@@ -23,7 +23,7 @@ public interface CacheService {
      *
      * @param key 键值
      */
-    void put(String key, Object value);
+    void set(String key, Object value);
 
     /**
      * 获取热点数据
@@ -45,7 +45,7 @@ public interface CacheService {
      *
      * @param key 键值
      */
-    void put(String key, Object value, long expirateTime);
+    void set(String key, Object value, long expirateTime);
 
     /**
      * 删除数据

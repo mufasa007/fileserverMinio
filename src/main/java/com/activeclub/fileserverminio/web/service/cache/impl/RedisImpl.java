@@ -2,13 +2,21 @@ package com.activeclub.fileserverminio.web.service.cache.impl;
 
 import com.activeclub.fileserverminio.web.service.cache.CacheService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Lazy
 @Log4j2
 @Service(value = "redisImpl")
 public class RedisImpl implements CacheService {
+
+    @Autowired
+    @Qualifier("redisTemplate")
+    private RedisTemplate redisTemplate;
+
     /**
      * 判断是否存在
      *
@@ -17,7 +25,7 @@ public class RedisImpl implements CacheService {
      */
     @Override
     public boolean exists(String key) {
-        return false;
+        return redisTemplate.hasKey(key);
     }
 
     /**
@@ -28,7 +36,7 @@ public class RedisImpl implements CacheService {
      */
     @Override
     public Object get(String key) {
-        return null;
+        return redisTemplate.opsForValue().get(key);
     }
 
     /**
@@ -38,8 +46,8 @@ public class RedisImpl implements CacheService {
      * @param value
      */
     @Override
-    public void put(String key, Object value) {
-
+    public void set(String key, Object value) {
+        redisTemplate.opsForValue().set(key,value);
     }
 
     /**
@@ -72,7 +80,7 @@ public class RedisImpl implements CacheService {
      * @param expirateTime
      */
     @Override
-    public void put(String key, Object value, long expirateTime) {
+    public void set(String key, Object value, long expirateTime) {
 
     }
 
@@ -85,4 +93,5 @@ public class RedisImpl implements CacheService {
     public void del(String key) {
 
     }
+
 }
