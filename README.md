@@ -1,24 +1,65 @@
-# fileserverMinio
+# fileserver
 
 
 
 ## 1，功能概述
 
-​	开发一套文件管理服务实现图片文档等小文件上传、下载、更新、预览功能！
+在公司做需求开发的时候独立做过一个文件管理微服务（fileserver这个也是我开发的第一个组件），当时有几个缺点：
 
-​	主要目的还是要替代阿里云的oss服务，实现免费的博客图片查阅服务！（主要是因为我之前使用的阿里云oss服务开始收费了！！！）
+- 没有做负载均衡
+- 没有联合文件索引系统
+- api接口定义不太完善
+- 没有做热点数据处理
+- 没有做断点续传
+- 只支持minio实现
 
-​	需要我的一个mufasa.site域名可以使用一下了
+优点：
+
+- 预览功能，支持word、xml、pdf、图片、html、json等
+- 功能稳定、日志全面
+- 部署方便
+- 支持docker容器化、k8s部署
+- 日志清晰
+
+
+
+由于公司的代码不能拿出来二次开发，所以我这边抽时间自己重新开发一遍，并且优化上述缺点。
+
+当前开发分支：V1.0.1
+
+更新说明：
+
+- 使用md5码实现union filesystem
+- 集成redis+caffeine热点数据缓存
+- 集成支持阿里云oss实现文件的上传下载
 
 
 
 ## 2，构架描述
 
-![image-20220225232247171](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimage-20220225232247171.png)
+
+
+整体概览：
+
+![image-20220309004131262](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimage-20220309004131262.png)
 
 
 
-![image-20220227105858496](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimgimage-20220227105858496.png)
+service解耦与多实现：
+
+![image-20220309004303993](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimage-20220309004303993.png)
+
+
+
+通过fileCode获取实体文件（参考docker的联合文件索引）：
+
+![image-20220309004226163](https://mufasa-blog-images.oss-cn-beijing.aliyuncs.com/imgimage-20220309004226163.png)
+
+
+
+
+
+
 
 使用技术：
 
