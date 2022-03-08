@@ -28,6 +28,10 @@ public class RedisImpl implements CacheService {
         return redisTemplate.hasKey(key);
     }
 
+    private void test(){
+//        redisTemplate.op
+    }
+
     /**
      * 获取数据
      *
