@@ -18,4 +18,11 @@ public class BaseController {
         br.setData(data);
         return br;
     }
+
+    public BaseResponse error(String msg) {
+        BaseResponse br = new BaseResponse();
+        br.setMsg(msg);
+        br.setCode("9999");
+        return br;
+    }
 }
