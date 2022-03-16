@@ -26,6 +26,17 @@ public interface CacheService {
     void set(String key, Object value);
 
     /**
+     * 用于
+     * @param key
+     *
+     */
+    boolean getLock(String key);
+
+    boolean getLock(String key,long timeSeconds);
+
+    boolean releaseLock(String key);
+
+    /**
      * 获取热点数据
      *
      * @param key 键值

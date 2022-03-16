@@ -32,4 +32,15 @@ public class CacheController extends BaseController {
         return success("查询文件信息成功",cacheService.get(key));
     }
 
+
+    @GetMapping("/setnx")
+    public BaseResponse setnx(String key) {
+        return success("查询文件信息成功", cacheService.getLock(key));
+    }
+
+    @GetMapping("/releaseLock")
+    public BaseResponse releaseLock(String key) {
+        return success("查询文件信息成功", cacheService.releaseLock(key));
+    }
+
 }
